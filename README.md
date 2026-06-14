@@ -1,2 +1,2 @@
 # se
-something to share
+something I think is useful to share
