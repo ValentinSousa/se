@@ -1,4 +1,4 @@
-# dbt Logging Best Practices
+# dbt Logging
 
 Logging in dbt is required for debugging Jinja logic and tracing query generation. These standards ensure production logs remain clean and secure.
 
