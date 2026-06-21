@@ -40,22 +40,7 @@ from {{ source('raw', 'events') }} -- ONLY used here
 ---
 
 ### Step 3: Compile and Validate (The Loop)
-1.  **Compile**: Run `dbt compile --select your_model_name`.
-2.  **Inspect the `target/` Directory**: dbt renders your Jinja-SQL into raw SQL and stores it in the `target/` folder. Understanding the difference between these subfolders is critical for debugging:
 
-    *   **`target/compiled/`**: This contains the **pure SELECT statement** of your model. 
-        *   *Use Case*: Copy this into DBeaver to verify results, check record counts, or analyze the execution plan (`EXPLAIN`).
-    *   **`target/run/`**: This contains the **full SQL wrapper** that dbt actually executes on Redshift (e.g., `CREATE VIEW ... AS SELECT ...` or `INSERT INTO ...`).
-        *   *Use Case*: If dbt fails during execution with a database error (e.g., "column name is ambiguous"), check the file in `target/run/`. It shows exactly what was sent to the warehouse, including any hidden DDL logic.
-
-3.  **Validate in IDE**:
-    *   **Option A (DBeaver)**: Use the SQL from `target/compiled/`.
-    *   **Option B (dbt Power User)**: If using VS Code, use the "Preview Results" button to see data instantly.
-4.  Refine your SQL logic in the source file and repeat until results are correct.
-
----
-
-### Step 4: Execute and Build
 Once the logic is solid, materialize the model in your development schema.
 1.  **Build**: Run `dbt build --select your_model_name`.
     *   *Why*: `dbt build` runs both the model and its tests. It acts as a **Circuit Breaker**—if a test fails, it stops before creating bad data downstream.
